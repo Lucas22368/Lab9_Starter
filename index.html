@@ -53,7 +53,8 @@
   <main>
     <form>
       <fieldset>
-        <legend>Error Calculator</legend>
+        <!-- <legend id="legend"> -->
+        Error Calculator</legend>
         <input name="first-num" id="first-num" />
         <select name="operator" id="operator">
           <option>+</option>
@@ -69,24 +70,30 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button id="log">Console Log</button>
+      <button id="error">Console Error</button>
+      <button id="count">Console Count</button>
+      <button id="warn">Console Warn</button>
+      <button id="assert">Console Assert</button>
+      <button id="clear">Console Clear</button>
+      <button id="dir">Console Dir</button>
+      <button id="dirxml">Console dirxml</button>
+      <button id="cgp">Console Group Start</button>
+      <button id="cge">Console Group End</button>
+      <button id="cta">Console Table</button>
+      <button id="st">Start Timer</button>
+      <button id="et">End Timer</button>
+      <button id="ct">Console Trace</button>
+      <button id="tge">Trigger a Global Error</button>
     </section>
   </main>
-
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "cbd2ce87f03d4e959bac02801a75bd72"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script> 
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -102,6 +109,99 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+    let groupcount=0;
+    let log = document.querySelector('#log');
+    log.addEventListener('click', e => {
+      console.log("random text");
+    })
+    let error = document.querySelector('#error');
+    error.addEventListener('click', e=> {
+      console.error('you made a mistake');
+    })
+    let count = document.querySelector('#count');
+    count.addEventListener('click', e=>{
+      console.count();
+    })
+    let warn = document.querySelector('#warn');
+    warn.addEventListener('click', e=>{
+      console.warn("don't do that");
+    })
+    let assert = document.querySelector('#assert');
+    assert.addEventListener('click',e=>{
+      console.assert(1+1==3,"1+1 does not equal 3");
+    })
+    let clear = document.querySelector('#clear');
+    clear.addEventListener('click',e=>{
+      console.clear();
+    })
+    let dir = document.querySelector('#dir');
+    dir.addEventListener('click',e=>{
+      console.dir(dir);
+    })
+    let dirxml = document.querySelector('#dirxml');
+    dirxml.addEventListener('click',e=>{
+      console.dirxml(dirxml);
+    })
+    let cgp = document.querySelector('#cgp');
+    cgp.addEventListener('click',e=>{
+      console.group(groupcount);
+      groupcount++;
+    })
+    let cge = document.querySelector('#cge');
+    cge.addEventListener('click',e=>{
+      console.groupEnd();
+      groupcount=0;
+    })
+    let cta=document.querySelector('#cta');
+    cta.addEventListener('click',e=>{
+      let random=[
+        ["1","2"],
+        ["3","4"],
+        ["5","6"],
+      ]
+      console.table(random);
+    })
+    let st=document.querySelector('#st');
+    st.addEventListener('click',e=>{
+      console.time('timer');
+    })
+    let et=document.querySelector('#et');
+    et.addEventListener('click',e=>{
+      console.timeEnd('timer');
+    })
+    let ct = document.querySelector('#ct');
+    ct.addEventListener('click',e=>{
+      console.trace();
+    })
+    let tge=document.querySelector('#tge');
+    tge.addEventListener('click',e=>{
+      undefinedvalue==2;
+    })
+    try{
+      let leg=document.querySelector('#legend');
+      leg.getAttribute('innerText')
+    }catch(err){
+      console.log('legend element has an issue');
+    }
+    class RandError extends Error{
+      constructor(message){
+        super(message);
+        this.name = "RandError";
+      }
+    }
+    function randtest(){
+      throw new RandError('random error');
+    }
+    try{
+      randtest();
+    } catch(err){
+      alert(err.message);
+      alert(err.name);
+      alert(err.stack);
+    }
+    window.addEventListener('error',e=>{
+      console.log("error detected");
+    })
   </script>
 </body>
 
